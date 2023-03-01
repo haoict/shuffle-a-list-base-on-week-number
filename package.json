@@ -1,0 +1,24 @@
+{
+  "name": "shuffle-a-list-base-on-week-number",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haoict/shuffle-a-list-base-on-week-number.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haoict/shuffle-a-list-base-on-week-number/issues"
+  },
+  "homepage": "https://github.com/haoict/shuffle-a-list-base-on-week-number#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "shuffle-seed": "^1.1.6"
+  }
+}
