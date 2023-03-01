@@ -6,7 +6,6 @@ const shuffleSeed = require("shuffle-seed");
 app.use(express.json());
 
 const users = [
-  { name: "Phan" },
   { name: "Hao" },
   { name: "Chao" },
   { name: "Luca" },
@@ -15,7 +14,7 @@ const users = [
 ];
 
 // POST route to shuffle list of users
-app.post("/cpthuddle", (req, res) => {
+app.post("/", (req, res) => {
   const dateParam = req.body.form?.text;
   let date;
   if (dateParam) {
@@ -24,40 +23,27 @@ app.post("/cpthuddle", (req, res) => {
       console.log("Invalid date param, will current date");
       date = new Date();
     }
-    date.setTime(date.getTime() + 9 * 60 * 60 * 1000); // shift to JST
+  } else {
+    date = new Date();
   }
+  date.setTime(date.getTime() + 9 * 60 * 60 * 1000); // shift to JST
   const weekNum = getWeekNumber(date); // get current week number
   console.log({ weekNum, date });
   const shuffledUsers = shuffleSeed.shuffle(users, weekNum); // shuffle users based on current week number
-  res.json({ shuffledUsers });
+  const returnMsg =
+    "_[Date: " +
+    date.toLocaleDateString("ja-JP") +
+    " | Week: " +
+    weekNum +
+    "]_\nToday huddle order is: " +
+    shuffledUsers.map((u) => "*" + u.name + "*").join(", ");
+  // res.json({ shuffledUsers });
+  res.send(returnMsg);
 });
 
-// helper function to shuffle users based on week number
-function shuffle(array, seed) {
-  // <-- ADDED ARGUMENT
-  var m = array.length,
-    t,
-    i;
-
-  // While there remain elements to shuffle…
-  while (m) {
-    // Pick a remaining element…
-    i = Math.floor(random(seed) * m--); // <-- MODIFIED LINE
-
-    // And swap it with the current element.
-    t = array[m];
-    array[m] = array[i];
-    array[i] = t;
-    ++seed; // <-- ADDED LINE
-  }
-
-  return array;
-}
-
-function random(seed) {
-  var x = Math.sin(seed++) * 10000;
-  return x - Math.floor(x);
-}
+app.get("/", (req, res) => {
+  res.send("Express on Vercel");
+});
 
 // helper function to get week number from date
 function getWeekNumber(date) {
