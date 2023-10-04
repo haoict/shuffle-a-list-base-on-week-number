@@ -39,7 +39,7 @@ app.post("/", (req, res) => {
     " | Week: " +
     weekNum +
     "]_\nToday huddle order is: \n" +
-    shuffledUsers.map((u) => "*" + u.name + "*").join("\n");
+    shuffledUsers.map((u) => "- *" + u.name + "*").join("\n");
   // res.json({ shuffledUsers });
   res.send(returnMsg);
 });
