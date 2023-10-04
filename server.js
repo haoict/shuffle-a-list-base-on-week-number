@@ -38,7 +38,7 @@ app.post("/", (req, res) => {
     date.toLocaleDateString("ja-JP") +
     " | Week: " +
     weekNum +
-    "]_\nToday huddle order is: " +
+    "]_\nToday huddle order is: \n" +
     shuffledUsers.map((u) => "*" + u.name + "*").join("\n");
   // res.json({ shuffledUsers });
   res.send(returnMsg);
