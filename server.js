@@ -12,7 +12,6 @@ const users = [
   { name: "Dmitry" },
   { name: "Gaetan" },
   { name: "Gayathree" },
-  { name: "Surendar" },
   { name: "Harumi" },
 ];
 
