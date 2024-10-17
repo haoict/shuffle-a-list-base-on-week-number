@@ -13,7 +13,6 @@ const users = [
   { name: "Gaetan" },
   { name: "Gayathree" },
   { name: "Harumi" },
-  { name: "Hiro (Wed, Thu, Fri only)" },
 ];
 
 // POST route to shuffle list of users
