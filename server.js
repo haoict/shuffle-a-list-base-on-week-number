@@ -1,9 +1,11 @@
 const express = require("express");
-const app = express();
 const shuffleSeed = require("shuffle-seed");
 
-// middleware to parse request body as JSON
-app.use(express.json());
+const app = express();
+const port = process.env.PORT || 3000; // Use process.env.PORT for Vercel
+
+// middleware to parse request body as URL-encoded form data
+app.use(express.urlencoded({ extended: false }));
 
 const users = [
   { name: "Hao" },
@@ -17,21 +19,25 @@ const users = [
 
 // POST route to shuffle list of users
 app.post("/", (req, res) => {
-  const dateParam = req.body.form?.text;
+  const dateParam = req.body.text; // Access the 'text' field directly from req.body
   let date;
+
   if (dateParam) {
     date = new Date(dateParam);
-    if (!date instanceof Date || isNaN(date)) {
+    if (! (date instanceof Date) || isNaN(date)) {
       console.log("Invalid date param, will current date");
       date = new Date();
     }
   } else {
     date = new Date();
   }
+
   date.setTime(date.getTime() + 9 * 60 * 60 * 1000); // shift to JST
   const weekNum = getWeekNumber(date); // get current week number
   console.log({ weekNum, date });
+
   const shuffledUsers = shuffleSeed.shuffle(users, weekNum); // shuffle users based on current week number
+
   const returnMsg =
     "_[Date: " +
     date.toLocaleDateString("ja-JP") +
@@ -39,6 +45,7 @@ app.post("/", (req, res) => {
     weekNum +
     "]_\nToday huddle order is: \n" +
     shuffledUsers.map((u) => "- *" + u.name + "*").join("\n");
+
   // res.json({ shuffledUsers });
   res.send(returnMsg);
 });
@@ -53,5 +60,5 @@ function getWeekNumber(date) {
   return Math.ceil(((date - onejan) / 86400000 + onejan.getDay() + 1) / 7);
 }
 
-// start server on port 3000
-app.listen(3000, () => console.log("Server started on port 3000"));
+// start server
+app.listen(port, () => console.log(`Server started on port ${port}`));
